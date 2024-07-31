@@ -6,7 +6,7 @@
     <meta name="description" content="The Great Khan Board">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- <link rel="icon" href="images/mag-logo-icon.ico" type="image/x-icon"> -->
-    <title>Kanban</title>
+    <title id="websiteTitle">Kanban</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
 </head>
@@ -18,6 +18,11 @@
         </div>
         <div class="headerButtonBox">
             <button class="headerButton" type="button" onclick="displayOverlay('Create Column', 'New Column', '', createColumn)">Create Column</button>
+            <!-- <button class="importButton custom-file-upload" for="importKanban" type="file">Import</button>
+            <input type="file" id="importKanban" accept=".json"> -->
+            <button class="importButton custom-file-upload" id="importButton">Import</button>
+            <input type="file" id="importKanban" accept=".json">
+            <button class="exportButton" type="button" onclick="exportKanban()">Export</button>
         </div>
     </div>
 </header>

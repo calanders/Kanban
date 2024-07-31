@@ -27,6 +27,8 @@ function loadKanban() {
   document.getElementById("columnSpace").innerHTML = "";
 
   // Load Kanban title
+  let websiteTitle = document.getElementById("websiteTitle");
+  websiteTitle.innerHTML = kanban[0].title;
   let kanbanTitle = document.getElementById("kanbanTitle");
   kanbanTitle.innerHTML = kanban[0].title;
   
@@ -44,7 +46,7 @@ function loadKanban() {
           </div>
           <div class="columnButtonBox">
             <button class="columnButton" type="button" onclick="deleteColumn('${column.id}')">Delete Column</button>
-            <button class="columnButton" type="button" onclick="displayOverlay('Create Task', 'New Task', '', createTask)">Create Task</button>
+            <button class="columnButton" type="button" onclick="displayIdOverlay('Create Task', 'New Task', '', '${column.id}', createTask)">Create Task</button>
           </div>
         </div>
         <div class="taskSpace" id="${column.id}"></div>
@@ -78,8 +80,16 @@ function loadKanban() {
   attachEventListeners();
 }
 
+// Function to display the overlay with a specified id
+function displayIdOverlay(formType, title, description, id, callback) {
+  overlayId = id;
+  displayOverlay(formType, title, description, callback);
+}
+
 // Function to display the overlay and populate the form with the specified title and description
 function displayOverlay(formType, title, description, callback) {
+  console.log(overlayId);
+
   // Display the overlay
   document.getElementById('modalOverlay').style.display = 'block';
   document.getElementById('inputModal').style.display = 'block';
@@ -112,7 +122,6 @@ function attachEventListeners() {
   kanbanTitle.addEventListener('click', (event) => {
     overlayColumns = kanban[0].columns;
     displayOverlay("Update Kanban", kanban[0].title, kanban[0].description, updateKanban);
-    // updateKanban(kanbanTitle.innerHTML);
   });
 
   for (c = 0; c < kanban[0].columns.length; c++) {
@@ -170,6 +179,7 @@ function attachEventListeners() {
       let task = kanban[0].columns[c].tasks[t];
       let taskTitle = document.getElementById("task_" + task.id);
       taskTitle.addEventListener('click', (event) => {
+        overlayTitle = task.title;
         overlayId = task.id;
         displayOverlay("Update Task", task.title, task.description, updateTask);
       });
@@ -390,4 +400,54 @@ async function sendHttpRequest(endpoint, data, method) {
     body: JSON.stringify(data)
   });
   location.reload();
+}
+
+// Get HTML elements used for importing and attach required event listeners
+document.getElementById('importButton').addEventListener('click', () => {
+  document.getElementById('importKanban').click();
+});
+document.getElementById('importKanban').addEventListener('change', importKanban, false);
+
+// Function to import a Kanban from a specified .json file. This function will overwrite the 
+// current Kanban displayed 
+async function importKanban(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        kanban[0] = JSON.parse(e.target.result);
+        const data = {
+          title: kanban[0].title,
+          description: kanban[0].description,
+          id: kanban[0].id,
+          columns: kanban[0].columns
+        }
+        sendHttpRequest(endpoint + '/updateKanban', data, 'PUT');
+        loadKanban();
+        
+      } catch (error) {
+        console.error('Error parsing JSON:', error);
+      }
+    };
+    reader.readAsText(file);
+  } else {
+    console.error('No file selected');
+  }
+}
+
+// Function to export the currently displayed Kanban. It will save to a .json file with the title 
+// matching the Kanban and save in the default downloads folder.
+async function exportKanban() {
+  const json = JSON.stringify(kanban[0], null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = kanban[0].title + '.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }

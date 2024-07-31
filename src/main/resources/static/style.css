@@ -1,4 +1,75 @@
 
+@font-face {
+  font-family: 'lemon_milkbold';
+  src: url('fonts/lemonmilk-bold-webfont.woff2') format('woff2'),
+       url('fonts/lemonmilk-bold-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'lemon_milkbold_italic';
+  src: url('fonts/lemonmilk-bolditalic-webfont.woff2') format('woff2'),
+       url('fonts/lemonmilk-bolditalic-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'lemon_milklight';
+  src: url('fonts/lemonmilk-light-webfont.woff2') format('woff2'),
+       url('fonts/lemonmilk-light-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'lemon_milklight_italic';
+  src: url('fonts/lemonmilk-lightitalic-webfont.woff2') format('woff2'),
+       url('fonts/lemonmilk-lightitalic-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'lemon_milkmedium';
+  src: url('fonts/lemonmilk-medium-webfont.woff2') format('woff2'),
+       url('fonts/lemonmilk-medium-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'lemon_milkmedium_italic';
+  src: url('fonts/lemonmilk-mediumitalic-webfont.woff2') format('woff2'),
+       url('fonts/lemonmilk-mediumitalic-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'lemon_milkregular';
+  src: url('fonts/lemonmilk-regular-webfont.woff2') format('woff2'),
+       url('fonts/lemonmilk-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'lemon_milkregular_italic';
+  src: url('fonts/lemonmilk-regularitalic-webfont.woff2') format('woff2'),
+       url('fonts/lemonmilk-regularitalic-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
 
 html {
   max-height: 100%;
@@ -40,7 +111,7 @@ body {
 
 .headerButtonBox {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: right;
   padding: 10px;
@@ -52,6 +123,24 @@ body {
   margin-right: 0;
   white-space: nowrap;
   cursor: pointer;
+}
+
+.exportButton {
+  margin: 5px;
+  margin-right: 0;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.importButton {
+  margin: 5px;
+  margin-right: 0;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+#importKanban {
+  display: none;
 }
 
 .controlButton {
@@ -85,12 +174,13 @@ body {
 .column {
   min-width: 384px;
   max-width: 384px;
-  border: 1px solid black;
   margin: 10px;
   margin-right: 20px;
   padding-left: 10px;
   padding-right: 10px;
   border-radius: 10px;
+  background-color: #FF8370;
+  /* border: 1px solid black; */
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 
@@ -106,6 +196,10 @@ body {
   align-items: center;
   width: 100%;
   cursor: pointer;
+}
+
+.columnTitle {
+  /* font-family: 'lemon_milklight'; */
 }
 
 .columnButtonBox {
@@ -127,6 +221,7 @@ body {
 .taskSpace {
   max-height: calc(90vh - 200px);
   overflow-y: auto;
+  padding-top: 5px;
 }
 
 .taskBox {
@@ -134,6 +229,10 @@ body {
   flex-direction: row;
   justify-content: space-between;
   overflow-y: auto;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background-color: white;
 }
 
 .taskTitleBox {
@@ -143,15 +242,18 @@ body {
   align-items: left;
   width: 100%;
   cursor: pointer;
+  padding-left: 5px;
 }
 
 .taskTitle {
   font-weight: bold;
+  margin-top: 5px;
   margin-bottom: 0px;
 }
 
 .taskDescription {
   margin-top: 0px;
+  margin-bottom: 5px;
 }
 
 .taskButtonBox {
