@@ -3,7 +3,7 @@ package com.greatkhan.kanban.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.greatkhan.kanban.database.FileManager;
-import com.greatkhan.kanban.model.Kanban;
+import com.greatkhan.kanban.model.Projects;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,33 +35,33 @@ public class AppConfig {
      */
     @Bean
     public FileManager fileManager(ObjectMapper objectMapper) {
-        return new FileManager(objectMapper, "src/main/resources/kanban.json");
+        return new FileManager(objectMapper, "src/main/resources/projects.json");
     }
 
     /**
-     * Constructs the Kanban bean using the FileManager. This is used to initialize the Kanban
+     * Constructs the Projects bean using the FileManager. This is used to initialize the Projects
      * with data that is stored in the database managed by the FileManager.
      *
-     * @param fileManager the FileManager object used to populate the Kanban
-     * @return the Kanban model stored in the database
+     * @param fileManager the FileManager object used to populate the Projects
+     * @return the Projects model stored in the database
      * @throws IOException if the file could not be accessed
      */
     @Bean
-    public Kanban kanban(FileManager fileManager) throws IOException {
-        return fileManager.readKanban();
+    public Projects projects(FileManager fileManager) throws IOException {
+        return fileManager.readProjects();
     }
 
     /**
-     * Constructs the RequestFilter bean using the Kanban model and the FileManager.
+     * Constructs the RequestFilter bean using the Projects model and the FileManager.
      *
-     * @param kanban the Kanban to use in file management
+     * @param projects the Projects to use in file management
      * @param fileManager the FileManager to serialize with
      * @return the RequestFilter bean
      */
     @Bean
-    public FilterRegistrationBean<RequestFilter> requestFilter(Kanban kanban, FileManager fileManager) {
+    public FilterRegistrationBean<RequestFilter> requestFilter(Projects projects, FileManager fileManager) {
         FilterRegistrationBean<RequestFilter> registrationBean = new FilterRegistrationBean<>();
-        registrationBean.setFilter(new RequestFilter(kanban, fileManager));
+        registrationBean.setFilter(new RequestFilter(projects, fileManager));
         registrationBean.addUrlPatterns("/*");
         return registrationBean;
     }

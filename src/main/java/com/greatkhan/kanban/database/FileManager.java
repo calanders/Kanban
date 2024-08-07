@@ -2,7 +2,7 @@ package com.greatkhan.kanban.database;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
-import com.greatkhan.kanban.model.Kanban;
+import com.greatkhan.kanban.model.Projects;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -28,32 +28,32 @@ public class FileManager {
     }
 
     /**
-     * Retrieves the Kanban model object from the file specified during construction of this
-     * class. If an invalid Kanban JSON object exists at the specified file, a new Kanban will
+     * Retrieves the Projects model object from the file specified during construction of this
+     * class. If an invalid Projects JSON object exists at the specified file, a new Projects will
      * be created and returned.
      *
      * @return the Kanban model object
      */
-    public Kanban readKanban() {
+    public Projects readProjects() {
         try {
-            return objectMapper.readValue(new File(filePath), Kanban.class);
+            return objectMapper.readValue(new File(filePath), Projects.class);
         } catch (MismatchedInputException e) {
-            System.err.println("Invalid content in the file. Creating a default Kanban object.");
-            return new Kanban();
+            System.err.println("Invalid content in the file. Creating a default Projects object.");
+            return new Projects();
         } catch (IOException e) {
-            System.err.println("IOException occurred while reading the file. Creating a default Kanban object.");
-            return new Kanban();
+            System.err.println("IOException occurred while reading the file. Creating a default Projects object.");
+            return new Projects();
         }
     }
 
     /**
-     * Serializes the Kanban model object to the file specified during construction of this class.
+     * Serializes the Projects model object to the file specified during construction of this class.
      *
-     * @param kanban the Kanban model object to serialize
+     * @param projects the Projects model object to serialize
      */
-    public void writeKanban(Kanban kanban) {
+    public void writeKanban(Projects projects) {
         try {
-            objectMapper.writeValue(new File(filePath), kanban);
+            objectMapper.writeValue(new File(filePath), projects);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

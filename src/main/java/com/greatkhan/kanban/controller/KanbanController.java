@@ -2,6 +2,7 @@ package com.greatkhan.kanban.controller;
 
 import com.greatkhan.kanban.model.Column;
 import com.greatkhan.kanban.model.Kanban;
+import com.greatkhan.kanban.model.Projects;
 import com.greatkhan.kanban.model.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,16 +18,28 @@ import java.util.UUID;
 @CrossOrigin(origins = "*")
 @RequestMapping("/api")
 public class KanbanController {
-    private final Kanban kanban;
+    private final Projects projects;
+//    private final Kanban kanban;
 
     /**
-     * Constructs a new KanbanController with the specified Kanban object as the model to modify.
+     * Constructs a new KanbanController with the specified Projects object as the model to modify.
      *
-     * @param kanban the Kanban model that this controller modifies
+     * @param projects the Projects model that this controller modifies
      */
     @Autowired
-    public KanbanController(Kanban kanban) {
-        this.kanban = kanban;
+    public KanbanController(Projects projects) {
+        this.projects = projects;
+//        this.kanban = kanban;
+    }
+
+    /**
+     * Retrieves the Projects model object.
+     *
+     * @return the Projects model
+     */
+    @GetMapping("/projects")
+    public Projects getProjects() {
+        return projects;
     }
 
     /**
@@ -34,9 +47,20 @@ public class KanbanController {
      *
      * @return the Kanban model
      */
-    @GetMapping("/kanban")
-    public Kanban getKanban() {
-        return kanban;
+    @GetMapping("/kanban/{id}")
+    public Kanban getKanban(@PathVariable UUID id) {
+        return projects.getKanban(id);
+    }
+
+    /**
+     * Creates a Kanban identical to the specified Kanban and adds it to the Projects model.
+     *
+     * @param kanban the Column to create
+     */
+    @PostMapping("/createKanban")
+    public void createKanban(@RequestBody Kanban kanban) {
+        kanban.setId(UUID.randomUUID());
+        projects.addKanban(kanban);
     }
 
     /**
@@ -47,23 +71,36 @@ public class KanbanController {
      */
     @PutMapping("/updateKanban")
     public void updateKanban(@RequestBody Kanban kanban) {
-        this.kanban.setTitle(kanban.getTitle());
-        this.kanban.setDescription(kanban.getDescription());
-        this.kanban.setId(kanban.getId());
-        this.kanban.setColumns(kanban.getColumns());
+        projects.updateKanban(kanban);
     }
 
     /**
-     * Creates a Column identical to the specified Column and adds it to the Kanban model. The
+     * Deletes the specified Kanban.
+     *
+     * @param kanban the Kanban to delete
+     */
+    @DeleteMapping("/deleteKanban")
+    public void deleteKanban(@RequestBody Kanban kanban) {
+        projects.removeKanban(kanban.getId());
+    }
+
+    /**
+     * Creates a Column identical to the specified Kanban and adds it to the Projects model. The
      * Column will be appended with a default Task as a placeholder for user changes
      *
-     * @param column the Column to create
+     * @param kanban the Column to create
      */
     @PostMapping("/createColumn")
-    public void createColumn(@RequestBody Column column) {
-        column.setId(UUID.randomUUID());
-        column.addTask(new Task());
-        kanban.addColumn(column);
+    public void createColumn(@RequestBody Kanban kanban) {
+        Column c = new Column();
+        c.setTitle(kanban.getTitle());
+        c.setDescription(kanban.getDescription());
+        c.setId(UUID.randomUUID());
+        c.addTask(new Task());
+        projects.getKanban(kanban.getId()).addColumn(c);
+
+//        column.addTask(new Task());
+//        projects.getKanban(column.getId()).addColumn(column);
     }
 
     /**
@@ -73,7 +110,7 @@ public class KanbanController {
      */
     @PutMapping("/updateColumn")
     public void updateColumn(@RequestBody Column column) {
-        kanban.updateColumn(column);
+        projects.getKanbanOfColumn(column.getId()).updateColumn(column);
     }
 
     /**
@@ -83,7 +120,7 @@ public class KanbanController {
      */
     @DeleteMapping("/deleteColumn")
     public void deleteColumn(@RequestBody Column column) {
-        kanban.removeColumn(column.getId());
+        projects.getKanbanOfColumn(column.getId()).removeColumn(column.getId());
     }
 
     /**
@@ -100,7 +137,7 @@ public class KanbanController {
         t.setTitle(column.getTitle());
         t.setDescription(column.getDescription());
         t.setId(UUID.randomUUID());
-        kanban.getColumn(column.getId()).addTask(t);
+        projects.getKanbanOfColumn(column.getId()).getColumn(column.getId()).addTask(t);
     }
 
     /**
@@ -110,7 +147,8 @@ public class KanbanController {
      */
     @PutMapping("/updateTask")
     public void updateTask(@RequestBody Task task) {
-        kanban.getColumnOfTask(task.getId()).updateTask(task);
+        UUID id = task.getId();
+        projects.getKanbanOfTask(id).getColumnOfTask(id).updateTask(task);
     }
 
     /**
@@ -120,6 +158,7 @@ public class KanbanController {
      */
     @DeleteMapping("/deleteTask")
     public void deleteTask(@RequestBody Task task) {
-        kanban.getColumnOfTask(task.getId()).removeTask(task.getId());
+        UUID id = task.getId();
+        projects.getKanbanOfTask(id).getColumnOfTask(id).removeTask(id);
     }
 }

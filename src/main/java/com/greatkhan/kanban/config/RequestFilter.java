@@ -1,7 +1,7 @@
 package com.greatkhan.kanban.config;
 
 import com.greatkhan.kanban.database.FileManager;
-import com.greatkhan.kanban.model.Kanban;
+import com.greatkhan.kanban.model.Projects;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,17 +16,17 @@ import java.io.IOException;
  */
 @WebFilter(urlPatterns = "/*")
 public class RequestFilter implements Filter {
-    private final Kanban kanban;
+    private final Projects projects;
     private final FileManager fileManager;
 
     /**
-     * Constructs a new RequestFilter with the specified Kanban model and FileManager.
+     * Constructs a new RequestFilter with the specified Projects model and FileManager.
      *
-     * @param kanban the Kanban to use in file management
+     * @param projects the Projects to use in file management
      * @param fileManager the FileManager to serialize with
      */
-    public RequestFilter(Kanban kanban, FileManager fileManager) {
-        this.kanban = kanban;
+    public RequestFilter(Projects projects, FileManager fileManager) {
+        this.projects = projects;
         this.fileManager = fileManager;
     }
 
@@ -53,7 +53,7 @@ public class RequestFilter implements Filter {
         httpResponse.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
         httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
 
-        fileManager.writeKanban(kanban);
+        fileManager.writeKanban(projects);
 
         if ("OPTIONS".equalsIgnoreCase(httpRequest.getMethod())) {
             httpResponse.setStatus(HttpServletResponse.SC_OK);

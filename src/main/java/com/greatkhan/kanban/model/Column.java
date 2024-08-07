@@ -35,7 +35,6 @@ public class Column {
         this.description = description;
         id = UUID.randomUUID();
         tasks = new LinkedList<>();
-        tasks.add(new Task());
     }
 
     /**
