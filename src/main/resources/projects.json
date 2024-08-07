@@ -1,0 +1,47 @@
+{
+  "kanbans" : [ {
+    "title" : "hello",
+    "description" : "hello\n",
+    "id" : "eaa12228-7cc4-4f93-8415-b6940706f4b8",
+    "columns" : [ ]
+  }, {
+    "title" : "Test Kanban project",
+    "description" : "description",
+    "id" : "e6688162-a9cf-4e74-84c7-de191207a2f7",
+    "columns" : [ {
+      "title" : "New Column",
+      "description" : "",
+      "id" : "dc8d8de1-680d-4e28-b572-6ca5b60abd3f",
+      "tasks" : [ {
+        "title" : "New Task",
+        "description" : "",
+        "id" : "afba8cc7-5240-4f8a-a378-97e86be9a01e"
+      }, {
+        "title" : "New Task",
+        "description" : "",
+        "id" : "121f760a-c40f-4659-b7c9-7118e8e84094"
+      }, {
+        "title" : "New Task",
+        "description" : "",
+        "id" : "b6c5d780-d255-4298-9089-7f7ec1c7d2dc"
+      }, {
+        "title" : "New Task",
+        "description" : "",
+        "id" : "ee3290b5-388d-4cc4-8a8a-8c94688e3bf2"
+      } ]
+    }, {
+      "title" : "New Column",
+      "description" : "",
+      "id" : "25b31bb2-5f55-4323-a625-ee0200db14aa",
+      "tasks" : [ {
+        "title" : "New Task",
+        "description" : "",
+        "id" : "f761d8f0-a640-4153-89dd-43859cefb973"
+      }, {
+        "title" : "New Task",
+        "description" : "",
+        "id" : "5e9cb442-7baf-4141-b5e1-61c6120629b3"
+      } ]
+    } ]
+  } ]
+}

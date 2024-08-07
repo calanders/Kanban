@@ -1,0 +1,52 @@
+/* kebabMenu.css */
+.kebab-menu {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+  z-index: 2;
+  font-size: 24px;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.tile:hover .kebab-menu .columnKebab {
+  color: #fff;
+}
+
+.kebab-dropdown {
+  display: none;
+  position: fixed;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  z-index: 3;
+  max-width: 150px;
+  overflow: hidden;
+}
+
+.kebab-dropdown button {
+  display: block;
+  width: 100%;
+  border: none;
+  background: none;
+  padding: 10px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kebab-dropdown button:hover {
+  background-color: #f0f0f0;
+}
+
+.columnKebab {
+  white-space: nowrap;
+  background: none;
+  border: none;
+  cursor: pointer;
+}

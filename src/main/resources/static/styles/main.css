@@ -1,0 +1,40 @@
+/* General Styles 
+    main.css
+*/
+html {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    font-family: 'Lemonada', sans-serif; /* Ensure consistent font-family across the site */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to top right, #00B1B0, #FF8370, #E42256); /* Gradient from Blue Green to Coral to Fuchsia */
+    color: white;
+    text-align: center;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+.background-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background: none; /* Ensure no background disrupts the gradient */
+}
+
+.content-wrapper {
+    border-radius: 10px;
+    padding: 40px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2); /* More pronounced shadow for the box */
+    text-align: center;
+    backdrop-filter: blur(10px); /* Optional: Adds a subtle blur effect for a frosted glass look */
+    background: rgba(255, 255, 255, 0.9); /* Semi-transparent white to preserve gradient visibility */
+}
+
+.main-title {
+    font-size: 48px;
+    /* margin-bottom: 20px; */
+    color: #333;
+}

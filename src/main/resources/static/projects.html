@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="SWENG 411 - Group 3">
+    <meta name="description" content="The Great Khan Board">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/icon.png" type="image/x-icon">
+    <title id="websiteTitle">Great Khan - Projects</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/tiles.css">
+    <link rel="stylesheet" href="styles/kebabMenu.css">
+    <link rel="stylesheet" href="styles/popups.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lemonada:wght@300;400;500;600;700&display=swap" />
+</head>
+<body id="main">
+    <header class="header">
+    </header>
+
+    <main class="content">
+      <!-- <div class="flex-container" id="flexContainer">
+        <button class="tile add-button" id="addTileBtn">+</button>
+      </div> -->
+      <div class="background-container" id="background-container">
+        <div class="content-wrapper">
+          <h1 class="main-title">Project Selector</h1>
+          <div class="flex-container" id="flexContainer">
+            <!-- Dynamically loaded tiles will go here -->
+            <button class="tile add-button" id="addTileBtn">+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Overlay for modals -->
+      <div class="modal-overlay" id="modalOverlay"></div>
+
+      <!-- Input modal -->
+      <div id="inputModal" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalDescription">
+        <h2 id="modalTitle">Enter Details</h2>
+        <form>
+          <label for="title">Title:</label>
+          <input type="text" id="title" placeholder="Enter title" aria-required="true"><br><br>
+          <label for="description">Description:</label>
+          <textarea id="description" placeholder="Enter description"></textarea><br><br>
+          <div class="modal-buttons">
+            <button type="button" id="submitBtn">Submit</button>
+            <button type="button" id="cancelBtn">Cancel</button>
+          </div>
+        </form>
+        <hr>
+        <h3>Or Upload JSON</h3>
+        <input type="file" id="jsonFileInput" accept=".json">
+        <button type="button" id="uploadJsonBtn">Upload JSON</button>
+      </div>
+
+      <!-- Details modal -->
+      <div id="detailsModal">
+        <h2>Details</h2>
+        <div id="detailsContent"></div>
+        <button id="closeDetailsBtn">Close</button>
+      </div>
+
+      <!-- Delete confirmation modal -->
+      <div id="deleteModal">
+        <h2>Confirm Deletion</h2>
+        <p>Are you sure you want to delete this tile?</p>
+        <button id="confirmDeleteBtn">Yes</button>
+        <button id="cancelDeleteBtn">No</button>
+      </div>
+
+      <!-- Conflict Modal -->
+      <div id="conflictModal" class="modal">
+        <div class="modal-content">
+          <h2>Conflicting IDs</h2>
+          <div id="conflictContent"></div>
+          <div class="modal-buttons">
+            <button id="autoResolveBtn">Auto-Resolve All</button>
+            <button id="downloadResolvedBtn">Download Resolved JSON</button>
+            <button id="closeConflictBtn">Close</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    <script src="js/kebabMenu.js"></script>
+    <script src="js/tiles.js"></script>
+    <script src="js/jsonManager.js"></script>
+    <script src="js/appManager.js"></script>
+</body>
+</html>
