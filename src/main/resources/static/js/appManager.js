@@ -1,5 +1,8 @@
 // appManager.js
 
+let uploadedKanban;
+let uploadedColumns = [];
+
 class AppManager {
     constructor() {
         this.simplemde = new SimpleMDE({ 
@@ -7,6 +10,7 @@ class AppManager {
             placeholder: "Enter description...",
             spellChecker: false,
             status: false,
+            autosave: true,
         });
 
         // Modal elements
@@ -72,11 +76,10 @@ class AppManager {
     }
 
     openModal(tile = null) {
-        this.simplemde.value("Hello!");
         if (tile) {
             document.getElementById('title').value = tile.dataset.title;
             document.getElementById('description').value = tile.dataset.description;
-            this.simplemde.value(tile.dataset.description); // Set description in editor
+            this.setDescription(tile.dataset.description);
             this.editMode = true;
             this.editTile = tile;
         } else {
@@ -130,11 +133,16 @@ class AppManager {
         if (this.editMode && this.editTile) {
             // Update existing tile
             let kanban = getKanbanById(this.editTile.dataset.id);
-            updateKanban(title, description, kanban.id, kanban.columns);
+            if(uploadedColumns.length > 0) {
+                updateKanban(title, description, kanban.id, uploadedColumns);
+                uploadedColumns = [];
+            } else {
+                updateKanban(title, description, kanban.id, kanban.columns);
+            }
         } else {
             // Create new tile
             createKanban(title, description, uploadedColumns);
-            uploadedColumns = [ ];
+            uploadedColumns = [];
         }
     }
 
@@ -148,7 +156,7 @@ class AppManager {
         const file = this.jsonFileInput.files[0];
         if (file) {
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = (e) => {
                 try {
                     const kanban = [];
                     kanban[0] = JSON.parse(e.target.result);
@@ -161,6 +169,8 @@ class AppManager {
                     // populate fields and prepare for form submission
                     document.getElementById('title').value = kanban[0].title;
                     document.getElementById('description').value = kanban[0].description;
+                    this.setDescription(kanban[0].description);
+                    uploadedKanban = kanban[0];
                     uploadedColumns = kanban[0].columns;
                 } catch (error) {
                     console.error('Error parsing JSON:', error);
@@ -190,10 +200,11 @@ class AppManager {
         } while (this.existingTileIds.has(newId));
         return newId;
     }
-}
 
-let uploadedId;
-let uploadedColumns;
+    setDescription(value) {
+        this.simplemde.value(value);
+    }
+}
 
 // Returns the Column object of the specified Column's id
 function getKanbanById(id) {
