@@ -518,12 +518,13 @@ function importKanban(event) {
     const reader = new FileReader();
     reader.onload = function(e) {
       try {
-        kanban[0] = JSON.parse(e.target.result);
+        let tempKanban = [];
+        tempKanban[0] = JSON.parse(e.target.result);
         const data = {
-          title: kanban[0].title,
-          description: kanban[0].description,
+          title: tempKanban[0].title,
+          description: tempKanban[0].description,
           id: kanban[0].id,
-          columns: kanban[0].columns
+          columns: tempKanban[0].columns
         }
         sendHttpRequest(endpoint + '/updateKanban', data, 'PUT');
         loadKanban();
@@ -552,4 +553,9 @@ function exportKanban() {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+}
+
+// Function to close the project by diverting to the Projects page
+function closeProject() {
+  window.location.href = 'projects.html';
 }

@@ -19,6 +19,14 @@ body {
   text-align: center;
 }
 
+.popupMenuSeparator {
+  width: 100%;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid #333;
+}
+
 /* HEADER CSS */
 .header {
   display: flex;
@@ -149,6 +157,7 @@ body {
 .columnTitleBox {
   display: flex;
   align-items: center;
+  justify-content: center;
   width: 100%;
   cursor: pointer;
 }

@@ -22,9 +22,12 @@
                 </button>
                 <div class="headerMeatballMenu" id="meatball_${column.id}">
                     <button class="headerButton" type="button" onclick="displayOverlay('Create Column', 'New Column', '', createColumn)">Create Column</button>
+                    <div class="popupMenuSeparator"></div>
                     <button class="headerButton importButton custom-file-upload" id="importButton">Import</button>
                     <input type="file" id="importKanban" accept=".json">
                     <button class="headerButton exportButton" type="button" onclick="exportKanban()">Export</button>
+                    <div class="popupMenuSeparator"></div>
+                    <button class="headerButton" type="button" onclick="closeProject()">Close Project</button>
                 </div>
             </div>
         </div>
