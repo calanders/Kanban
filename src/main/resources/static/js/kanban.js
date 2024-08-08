@@ -53,7 +53,7 @@ function loadKanban() {
           </div>
           <div class="columnButtonBox">
             <button class="columnKebab" type="button" onclick="toggleColumnKebab('${column.id}')">
-              <i class="fa-solid fa-ellipsis-vertical fa-2xl" id=""></i>
+              <i class="fa-solid fa-ellipsis-vertical fa-2xl"></i>
             </button>
             <div class="columnKebabMenu" id="kebab_${column.id}">
               <button class="columnButton" type="button" onclick="deleteColumn('${column.id}')">Delete Column</button>
@@ -61,6 +61,7 @@ function loadKanban() {
             </div>
           </div>
         </div>
+        <div class="columnSeparator"></div>
         <div class="taskSpace" id="${column.id}"></div>
       </div>`
 
@@ -79,11 +80,12 @@ function loadKanban() {
             </div>
             <div class="taskButtonBox">
               <button class="taskButton" type="button" onclick="deleteTask('${task.id}')">
-                <i class="fa-regular fa-trash-can fa-lg"></i>
+                <i class="fa-regular fa-trash-can fa-xl"></i>
               </button>
             </div>
           </div>
-        </div>`
+        </div>
+        <div class="taskSeparator" id="task_${task.id}"></div>`
 
       taskSpace.innerHTML += taskHTML;
     }
@@ -199,9 +201,21 @@ function attachEventListeners() {
         droppedId = event.target.childNodes[1].id;
       }
       let draggedId = event.dataTransfer.getData('text/plain');
-      droppedId = droppedId.replace("colTitle_", "");
       draggedId = draggedId.replace("colTitle_", "");
-      moveColumn(draggedId, droppedId);
+      draggedId = draggedId.replace("task_", "");
+      droppedId = droppedId.replace("colTitle_", "");
+      droppedId = droppedId.replace("task_", "");
+
+      // If the drag location is a Task and the drop location is a Column, move Tasks instead of Columns
+      let draggedTask = getTaskById(draggedId);
+      let droppedColumn = getColumnById(droppedId);
+      if (draggedTask !== null && droppedColumn !== null) {
+        if (getColumnByTaskId(draggedTask.id) !== droppedColumn) {
+          addTaskToColumn(draggedId, droppedColumn.id);
+        }
+      } else {
+        moveColumn(draggedId, droppedId);
+      }
     });
 
     // Attach drag listeners to the task space of each Column
@@ -217,10 +231,19 @@ function attachEventListeners() {
         droppedId = event.target.childNodes[1].id;
       }
       let draggedId = event.dataTransfer.getData('text/plain');
-      droppedId = droppedId.replace("task_", "");
+      draggedId = draggedId.replace("colTitle_", "");
       draggedId = draggedId.replace("task_", "");
-      console.log(droppedId);
-      moveTask(draggedId, droppedId);
+      droppedId = droppedId.replace("colTitle_", "");
+      droppedId = droppedId.replace("task_", "");
+
+      // If the drag location is a Column and the drop location is a Task, move Columns instead of Tasks
+      let draggedColumn = getColumnById(draggedId);
+      let droppedTask = getTaskById(droppedId);
+      if (draggedColumn !== null && droppedTask !== null) {
+        moveColumn(draggedId, getColumnByTaskId(droppedTask.id).id);
+      } else {
+        moveTask(draggedId, droppedId);
+      }
     });
 
     for (t = 0; t < tasks.length; t++) {
@@ -229,7 +252,6 @@ function attachEventListeners() {
       let taskTitle = document.getElementById("task_" + task.id);
       taskTitle.addEventListener('click', (event) => {
         overlayTitle = task.title;
-        //overlayId = task.id;
         displayIdOverlay("Update Task", task.title, task.description, task.id, updateTask);
       });
     }
@@ -237,15 +259,15 @@ function attachEventListeners() {
 }
 
 // Function to re-order the columns of the Kanban.
-async function moveColumn(columnId1, columnId2) {
+function moveColumn(columnId1, columnId2) {
   let sourceColumn = getColumnById(columnId1);
   let destinationIndex = getIndexOfColumnId(columnId2);
 
   // Remove Column from Kanban
-  await kanban[0].columns.splice(getIndexOfColumnId(columnId1), 1);
+  kanban[0].columns.splice(getIndexOfColumnId(columnId1), 1);
 
   // Add Column at index of dropped Column
-  await kanban[0].columns.splice(destinationIndex, 0, sourceColumn);
+  kanban[0].columns.splice(destinationIndex, 0, sourceColumn);
 
   const data = {
     title: kanban[0].title,
@@ -256,17 +278,48 @@ async function moveColumn(columnId1, columnId2) {
 }
 
 // Function to move a task to another Column.
-async function moveTask(taskId1, taskId2) {
+function moveTask(taskId1, taskId2) {
   let sourceTask = getTaskById(taskId1);
   let sourceColumn = getColumnByTaskId(taskId1);
   let destinationColumn = getColumnByTaskId(taskId2);
   let destinationIndex = getIndexOfTaskId(taskId2);
 
   // Remove Task from source Column
-  await sourceColumn.tasks.splice(getIndexOfTaskId(taskId1), 1);
+  sourceColumn.tasks.splice(getIndexOfTaskId(taskId1), 1);
 
   // Add Task to destination Column at index of dropped Task
-  await destinationColumn.tasks.splice(destinationIndex + 1, 0, sourceTask);
+  destinationColumn.tasks.splice(destinationIndex + 1, 0, sourceTask);
+
+  // Update source Column
+  data = {
+    title: sourceColumn.title,
+    id: sourceColumn.id,
+    tasks: sourceColumn.tasks
+  }
+  sendHttpRequest(endpoint + '/updateColumn', data, 'PUT');
+
+  // Update destination Column
+  data = {
+    title: destinationColumn.title,
+    id: destinationColumn.id,
+    tasks: destinationColumn.tasks
+  }
+  sendHttpRequest(endpoint + '/updateColumn', data, 'PUT');
+}
+
+function addTaskToColumn(taskId1, columnId1) {
+  let sourceTask = getTaskById(taskId1);
+  let sourceColumn = getColumnByTaskId(taskId1);
+  let destinationColumn = getColumnById(columnId1);
+
+  // console.log(taskId1);
+  // console.log(getColumnById(columnId1).tasks);
+
+  // Remove Task from source Column
+  sourceColumn.tasks.splice(getIndexOfTaskId(taskId1), 1);
+
+  // Add Task to the end of the Column's Tasks array
+  destinationColumn.tasks.push(sourceTask);
 
   // Update source Column
   data = {
