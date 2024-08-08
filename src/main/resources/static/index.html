@@ -7,41 +7,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="images/icon.png" type="image/x-icon">
     <title id="websiteTitle">Great Khan - Login</title>
-    <link href="styles/login.css" rel="stylesheet" type="text/css" />
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" /> -->
+    <link rel="stylesheet" href="styles/login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body id="main">
-    <header class="header">
-    </header>
+    <header class="header"></header>
 
     <main class="content">
+        <!-- Title for the application -->
+        <h1 class="main-title">The Great Khan Ban</h1>
+
         <!-- Button to open the input modal -->
-        <button id="openModalBtn">Login</button>
+        <button id="openModalBtn" class="login-button">Login</button>
 
         <!-- Overlay for modals -->
         <div class="modal-overlay" id="modalOverlay"></div>
 
         <!-- Input modal -->
-        <div id="inputModal">
+        <div id="inputModal" class="modal">
             <h2>Login</h2>
-            <p id="alertNotice"></p>
+            <p id="alertNotice" class="alert-notice"></p>
             <label for="userName">Username:</label>
             <input type="text" id="userName"><br><br>
             <label for="password">Password:</label>
             <input type="password" id="password"><br><br>
-            <button id="submitBtn">Submit</button>
+            <div class="modal-buttons">
+                <button id="submitBtn" class="modal-button">Submit</button>
+                <button id="cancelBtn" class="modal-button cancel-button">Cancel</button>
+            </div>
         </div>
 
         <!-- Output modal -->
-        <div id="outputModal">
+        <div id="outputModal" class="modal">
             <p id="outputuserName"></p>
             <p id="outputpassword"></p>
-            <button id="closeOutputBtn">Close</button>
+            <button id="closeOutputBtn" class="modal-button">Close</button>
         </div>
     </main>
 
-    <footer class="footer">
-    </footer>
+    <footer class="footer"></footer>
 
     <!-- Link to the JavaScript file -->
     <script src="js/login.js"></script>

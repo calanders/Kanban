@@ -4,14 +4,15 @@ const modalOverlay = document.getElementById('modalOverlay');
 const inputModal = document.getElementById('inputModal');
 const outputModal = document.getElementById('outputModal');
 const submitBtn = document.getElementById('submitBtn');
+const cancelBtn = document.getElementById('cancelBtn');
 const closeOutputBtn = document.getElementById('closeOutputBtn');
 const outputuserName = document.getElementById('outputuserName');
 const outputpassword = document.getElementById('outputpassword');
 const alertNotice = document.getElementById('alertNotice');
 
 function getQueryParam(name) {
-  const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get(name);
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(name);
 }
 
 // const loginQueryId = getQueryParam('auth');
@@ -31,7 +32,7 @@ submitBtn.addEventListener('click', () => {
     const userName = document.getElementById('userName').value;
     const password = document.getElementById('password').value;
 
-    if ( userName != "admin" || password != "test123" ) {
+    if (userName !== "admin" || password !== "test123") {
         alertNotice.textContent = "Please enter a valid username/password";
     } else {
         outputuserName.textContent = userName;
@@ -42,6 +43,12 @@ submitBtn.addEventListener('click', () => {
 
         redirectToProjects();
     }
+});
+
+// Event listener to close the input modal when cancel button is clicked
+cancelBtn.addEventListener('click', () => {
+    inputModal.style.display = 'none';
+    modalOverlay.style.display = 'none';
 });
 
 // Event listener to close the output modal

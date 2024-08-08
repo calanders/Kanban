@@ -1,17 +1,61 @@
-/* Styles for the modals */
-#inputModal, #outputModal {
-    display: none;
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    padding: 20px;
-    background-color: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
+/* General Styles */
+body {
+    font-family: 'Quicksand', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to top right, #00B1B0, #FF8370, #E42256);
+    color: white;
+    text-align: center;
+    height: 100vh;
+    justify-content: flex-start; /* Align content towards the top */
 }
 
-/* Styles for the modal overlay */
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding-top: 200px; /* Increase padding to move content down */
+}
+
+.header, .footer {
+    display: none;
+}
+
+/* Main title style */
+.main-title {
+    font-size: 72px; /* Increase font size */
+    margin-top: 20px; /* Adjust margin for spacing */
+    color: #FFF;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-weight: 700;
+}
+
+/* Enhanced login button style */
+.login-button {
+    background-color: #0066cc; /* Changed to a deeper blue */
+    color: #FFF;
+    font-size: 24px; /* Increase font size */
+    font-family: 'Quicksand', sans-serif;
+    border: none;
+    border-radius: 30px; /* Increase border-radius for larger button */
+    padding: 20px 40px; /* Increase padding for larger button */
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-transform: uppercase;
+    margin-top: 40px; /* Add margin to separate from the title */
+}
+
+.login-button:hover {
+    background-color: #005bb5; /* Darker shade of blue for hover effect */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -20,4 +64,82 @@
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     display: none;
+    z-index: 1000;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: white;
+    color: black;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    z-index: 1001;
+    text-align: left;
+    max-width: 400px;
+    width: 90%;
+}
+
+.modal h2 {
+    margin-top: 0;
+    color: #333;
+}
+
+.modal label {
+    font-size: 16px;
+    color: #333;
+}
+
+.modal input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.modal input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-button {
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    font-family: 'Quicksand', sans-serif;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.modal-button:hover {
+    background-color: #005bb5;
+}
+
+.cancel-button {
+    background-color: #d9534f;
+}
+
+.cancel-button:hover {
+    background-color: #c9302c;
+}
+
+.alert-notice {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
 }
